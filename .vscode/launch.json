@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "flutter_clock_helper",
+            "cwd": "flutter_clock_helper",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "flutter_clock_helper (profile mode)",
+            "cwd": "flutter_clock_helper",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "kings_clock",
+            "cwd": "kings_clock",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "kings_clock (profile mode)",
+            "cwd": "kings_clock",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        }
+    ]
+}

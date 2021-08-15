@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:wakelock/wakelock.dart';
@@ -8,7 +9,9 @@ void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
-  runApp(King());
+  runApp(
+    King(),
+  );
 }
 
 class King extends StatelessWidget {
@@ -16,12 +19,13 @@ class King extends StatelessWidget {
   Widget build(BuildContext context) {
     Wakelock.enable();
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(brightness: Brightness.light),
-        darkTheme: ThemeData(brightness: Brightness.dark),
-        home: Scaffold(
-          body: DigitalClock(),
-        ));
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(brightness: Brightness.light),
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      home: Scaffold(
+        body: DigitalClock(),
+      ),
+    );
   }
 }
 
@@ -33,6 +37,7 @@ class DigitalClock extends StatefulWidget {
 class _DigitalClockState extends State<DigitalClock> {
   @override
   void initState() {
+    super.initState();
     Timer.periodic(Duration(seconds: 1), (V) {
       if (mounted) {
         setState(() {
@@ -44,7 +49,6 @@ class _DigitalClockState extends State<DigitalClock> {
         });
       }
     });
-    super.initState();
   }
 
   _hour0() {
@@ -88,34 +92,37 @@ class _DigitalClockState extends State<DigitalClock> {
     return "$day $month, $year";
   }
 
-  Widget handle(d, w, h) {
+  Widget handle(d) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-      width: w,
-      height: h,
+      padding: EdgeInsets.all(5),
+      width: 65.0,
+      height: 155.0,
       decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: 20.0,
-            )
-          ],
-          borderRadius: BorderRadius.circular(50.0),
-          gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.black.withOpacity(0.2),
-                Colors.white.withOpacity(0.6),
-                Colors.white,
-                Colors.white.withOpacity(0.6),
-                Colors.black.withOpacity(0.2),
-              ])),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 20.0,
+          )
+        ],
+        borderRadius: BorderRadius.circular(50.0),
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Colors.black.withOpacity(0.2),
+              Colors.white.withOpacity(0.6),
+              Colors.white,
+              Colors.white.withOpacity(0.6),
+              Colors.black.withOpacity(0.2),
+            ]),
+      ),
       child: FittedBox(
         child: Center(
-          child: Text(d,
-              style:
-                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+          child: Text(
+            d,
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
@@ -123,43 +130,30 @@ class _DigitalClockState extends State<DigitalClock> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        bottom: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          _date(),
+          style: TextStyle(fontSize: 24),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(),
-            Container(
-              child: Text("Digital Clock",
-                  style:
-                      TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold)),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  _date(),
-                  style: TextStyle(fontSize: 24),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                handle(_hour0(), 75.0, 165.0),
-                handle(_hour1(), 75.0, 165.0),
-                handle(" : ", 25.0, 40.0),
-                handle(_minute0(), 75.0, 165.0),
-                handle(_minute1(), 75.0, 165.0),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Anime()],
-            ),
+            handle(_hour0()),
+            handle(_hour1()),
+            Anime(),
+            handle(_minute0()),
+            handle(_minute1()),
           ],
-        ));
+        ),
+        Text(
+          "Digital Clock",
+          style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
   }
 }
 
@@ -169,21 +163,23 @@ class Anime extends StatefulWidget {
 }
 
 class _AnimeState extends State<Anime> with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController animationController;
+  Animation<double>? animation;
+  late AnimationController animationController;
   @override
   void initState() {
+    super.initState();
+    animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 500),
+    );
     Timer.periodic(Duration(seconds: 1), (V) {
       if (mounted) {
         setState(() {});
       }
     });
-    super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
-    animation.addStatusListener((status) {
+    animation!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         animationController.reverse();
       } else if (status == AnimationStatus.dismissed) {
@@ -202,16 +198,14 @@ class _AnimeState extends State<Anime> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        child: AnimatedLogo(animation: animation),
-      ),
+      child: AnimatedLogo(animation: animation),
     );
   }
 }
 
 class AnimatedLogo extends AnimatedWidget {
-  AnimatedLogo({Key key, Animation animation, text})
-      : super(key: key, listenable: animation);
+  AnimatedLogo({Key? key, Animation? animation})
+      : super(key: key, listenable: animation!);
   _sec() {
     var sec1 = DateTime.now().second.toInt() / 10;
     var sec0 = DateTime.now().second.toInt() % 10;
@@ -220,12 +214,12 @@ class AnimatedLogo extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
+    final animation = listenable as Animation<double>;
     return Transform.scale(
       scale: animation.value,
       child: Text(
         _sec(),
-        style: TextStyle(fontSize: 40),
+        style: TextStyle(fontSize: 20),
       ),
     );
   }

@@ -67,11 +67,13 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
         child: DropdownButton<T>(
           value: value,
           isDense: true,
-          onChanged: onChanged,
+          onChanged: (T) {
+            onChanged(T!);
+          },
           items: items.map((T item) {
             return DropdownMenuItem<T>(
               value: item,
-              child: Text(enumToString(item)),
+              child: Text(enumToString(item as Object)),
             );
           }).toList(),
         ),
@@ -92,13 +94,15 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
   }
 
   Widget _textField(
-      String currentValue, String label, ValueChanged<Null> onChanged) {
+      String currentValue, String label, ValueChanged<String> onChanged) {
     return TextField(
       decoration: InputDecoration(
         hintText: currentValue,
         helperText: label,
       ),
-      onChanged: onChanged,
+      onChanged: (T) {
+        onChanged(T);
+      },
     );
   }
 
@@ -194,7 +198,7 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
       themeMode: _themeMode,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         endDrawer: _configDrawer(context),
         body: SafeArea(
           child: GestureDetector(
