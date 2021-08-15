@@ -1,2 +1,5 @@
 # King's Clock
-## App for Flutter Clock competetion
+
+## App for Flutter Clock competition
+
+
