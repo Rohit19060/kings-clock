@@ -68,12 +68,12 @@ class _ClockCustomizerState extends State<ClockCustomizer> {
           value: value,
           isDense: true,
           onChanged: (T) {
-            onChanged(T!);
+            onChanged(T);
           },
           items: items.map((T item) {
             return DropdownMenuItem<T>(
               value: item,
-              child: Text(enumToString(item as Object)),
+              child: Text(enumToString(item)),
             );
           }).toList(),
         ),
