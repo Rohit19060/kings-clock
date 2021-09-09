@@ -6,15 +6,20 @@ import 'package:wakelock/wakelock.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setEnabledSystemUIOverlays([]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    SystemUiOverlay.top,
+    SystemUiOverlay.bottom,
+  ]);
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
   runApp(
-    King(),
+    const King(),
   );
 }
 
 class King extends StatelessWidget {
+  const King({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Wakelock.enable();
@@ -22,7 +27,7 @@ class King extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
-      home: Scaffold(
+      home: const Scaffold(
         body: DigitalClock(),
       ),
     );
@@ -30,6 +35,8 @@ class King extends StatelessWidget {
 }
 
 class DigitalClock extends StatefulWidget {
+  const DigitalClock({Key? key}) : super(key: key);
+
   @override
   _DigitalClockState createState() => _DigitalClockState();
 }
@@ -38,7 +45,7 @@ class _DigitalClockState extends State<DigitalClock> {
   @override
   void initState() {
     super.initState();
-    Timer.periodic(Duration(seconds: 1), (V) {
+    Timer.periodic(const Duration(seconds: 1), (V) {
       if (mounted) {
         setState(() {
           _hour0();
@@ -94,12 +101,12 @@ class _DigitalClockState extends State<DigitalClock> {
 
   Widget handle(d) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
-      padding: EdgeInsets.all(5),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15.0),
+      padding: const EdgeInsets.all(5),
       width: 65.0,
       height: 155.0,
       decoration: BoxDecoration(
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Colors.black12,
             blurRadius: 20.0,
@@ -121,7 +128,8 @@ class _DigitalClockState extends State<DigitalClock> {
         child: Center(
           child: Text(
             d,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -136,19 +144,19 @@ class _DigitalClockState extends State<DigitalClock> {
       children: [
         Text(
           _date(),
-          style: TextStyle(fontSize: 24),
+          style: const TextStyle(fontSize: 24),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             handle(_hour0()),
             handle(_hour1()),
-            Anime(),
+            const Anime(),
             handle(_minute0()),
             handle(_minute1()),
           ],
         ),
-        Text(
+        const Text(
           "Digital Clock",
           style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
         ),
@@ -158,6 +166,8 @@ class _DigitalClockState extends State<DigitalClock> {
 }
 
 class Anime extends StatefulWidget {
+  const Anime({Key? key}) : super(key: key);
+
   @override
   _AnimeState createState() => _AnimeState();
 }
@@ -170,9 +180,9 @@ class _AnimeState extends State<Anime> with SingleTickerProviderStateMixin {
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
-    Timer.periodic(Duration(seconds: 1), (V) {
+    Timer.periodic(const Duration(seconds: 1), (V) {
       if (mounted) {
         setState(() {});
       }
@@ -219,7 +229,7 @@ class AnimatedLogo extends AnimatedWidget {
       scale: animation.value,
       child: Text(
         _sec(),
-        style: TextStyle(fontSize: 20),
+        style: const TextStyle(fontSize: 20),
       ),
     );
   }
