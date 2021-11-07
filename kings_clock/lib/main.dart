@@ -13,25 +13,8 @@ void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
   runApp(
-    const King(),
+    const DigitalClock(),
   );
-}
-
-class King extends StatelessWidget {
-  const King({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Wakelock.enable();
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      home: const Scaffold(
-        body: DigitalClock(),
-      ),
-    );
-  }
 }
 
 class DigitalClock extends StatefulWidget {
@@ -138,29 +121,36 @@ class _DigitalClockState extends State<DigitalClock> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          _date(),
-          style: const TextStyle(fontSize: 24),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    Wakelock.enable();
+    return MaterialApp(
+      theme: ThemeData(brightness: Brightness.light),
+      darkTheme: ThemeData(brightness: Brightness.dark),
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            handle(_hour0()),
-            handle(_hour1()),
-            const Anime(),
-            handle(_minute0()),
-            handle(_minute1()),
+            Text(
+              _date(),
+              style: const TextStyle(fontSize: 24),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                handle(_hour0()),
+                handle(_hour1()),
+                const Anime(),
+                handle(_minute0()),
+                handle(_minute1()),
+              ],
+            ),
+            const Text(
+              "Digital Clock",
+              style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
-        const Text(
-          "Digital Clock",
-          style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
-        ),
-      ],
+      ),
     );
   }
 }
